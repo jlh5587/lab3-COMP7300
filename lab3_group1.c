@@ -74,6 +74,21 @@ void to_Binary(int check, int j, char * type)
 
 }
 
+int to_hex(char* input)
+{
+    char *bin=input;
+    char *a = bin;
+    int num = 0;
+    do {
+        int b = *a=='1'?1:0;
+        num = (num<<1)|b;
+        a++;
+    } while (*a);
+    printf("hex 0x%X\n", num);
+    return(num);
+}
+
+
 
 
 
@@ -93,6 +108,23 @@ void to_Binary(int check, int j, char * type)
 void control()
 {
   printf("%s\n", address);
+  int hex = to_hex(address);
+  printf("hex 0x%X\n", hex);
+  char hex_format[12]; 
+  sprintf(hex_format,"0x%08X\n",hex); 
+  printf("Hex value = %s\n", hex_format);
+
+  FILE *fwb;
+  fwb=fopen("binary_output.txt", "a+");
+  fwrite(address,1,sizeof(address),fwb);
+  fclose(fwb);
+
+  FILE *fwh;
+  fwh=fopen("hexidecimal_output.txt", "a+");
+  fwrite(hex_format,1,sizeof(hex_format),fwh);
+  fclose(fwh);
+
+
 }
 
 // Method: addu, subu, slt, and, or
@@ -430,7 +462,7 @@ void read_file(char * filename)
 
   		
   	}
-
+    fclose(fp);
   	printf("End Scan\n");
 }
 
